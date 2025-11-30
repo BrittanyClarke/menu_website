@@ -1,5 +1,5 @@
 // backend/routes/merch.js
-// Returns the merch catalog derived from Square for the frontend carousel.
+// Returns grouped merch items (with variations and inventory info) for the frontend carousel.
 
 const express = require('express');
 const router = express.Router();
@@ -8,12 +8,21 @@ const { getMerchItems } = require('../merchFromSquare');
 router.get('/', async (req, res) => {
   try {
     const items = await getMerchItems();
+
     const publicItems = items.map(item => ({
-      id: item.id,
+      id: item.itemId,
       name: item.name,
-      price: item.price,
       imageUrl: item.imageUrl,
+      itemSoldOut: item.itemSoldOut,
+      variations: item.variations.map(v => ({
+        id: v.id,
+        label: v.label,
+        price: v.price,
+        quantity: v.quantity,
+        inStock: v.inStock,
+      })),
     }));
+
     res.json(publicItems);
   } catch (err) {
     console.error('Error loading merch from Square:', err);

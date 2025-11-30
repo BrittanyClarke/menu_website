@@ -1,7 +1,7 @@
 // public/main.js
+// Handles shows, gallery, merch carousel, cart, and checkout.
 
-// Loads upcoming shows from Bandsintown and renders them
-async function initShows() {
+async function loadShows() {
   const container = document.getElementById('shows-list');
   if (!container) return;
 
@@ -10,12 +10,10 @@ async function initShows() {
       'https://rest.bandsintown.com/artists/menu (u.s.)/events?app_id=16bfd74ae887ffb4dc7a75d6de20cbbc'
     );
 
-    if (!response.ok) {
-      throw new Error('Shows request failed');
-    }
+    if (!response.ok) throw new Error('Shows request failed');
 
     const events = await response.json();
-    if (!Array.isArray(events) || !events.length) {
+    if (!Array.isArray(events) || events.length === 0) {
       container.innerHTML =
         '<div class="py-6 text-sm tracking-wide opacity-70">No upcoming shows. Check back soon.</div>';
       return;
@@ -25,12 +23,8 @@ async function initShows() {
       .map(event => {
         const date = new Date(event.datetime);
         const dateStr = date
-          .toLocaleDateString('en-US', {
-            month: 'short',
-            day: '2-digit',
-          })
+          .toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
           .toUpperCase();
-
         const venue = event.venue?.name || '';
         const city = event.venue?.city || '';
         const region = event.venue?.region || event.venue?.country || '';
@@ -39,21 +33,19 @@ async function initShows() {
 
         return `
           <a href="${url}" target="_blank"
-             class="block py-6 flex justify-between items-center hover:bg-black hover:text-white transition">
+            class="block py-6 flex justify-between items-center hover:bg-black hover:text-white transition">
             <span class="text-lg tracking-wide">${dateStr} • ${loc}</span>
             <span class="tracking-widest text-xs">TICKETS →</span>
           </a>
         `;
       })
       .join('');
-  } catch (err) {
-    console.error('Error loading shows:', err);
+  } catch {
     container.innerHTML =
       '<div class="py-6 text-sm tracking-wide opacity-70">Unable to load shows right now.</div>';
   }
 }
 
-// Enables "load more" behavior for the photo gallery
 function initGallery() {
   const galleryInner = document.getElementById('gallery-inner');
   const galleryOverlay = document.getElementById('gallery-overlay');
@@ -71,7 +63,7 @@ function initGallery() {
   });
 }
 
-// Handles merch carousel, cart state, and checkout
+// Handles merch carousel, size variations, cart state, and checkout flow.
 function initMerchAndCart() {
   const carousel = document.getElementById('merch-carousel');
   const prevBtn = document.getElementById('merch-prev');
@@ -86,14 +78,16 @@ function initMerchAndCart() {
   const cartCheckout = document.getElementById('cart-checkout');
 
   if (!carousel || !prevBtn || !nextBtn) return;
+
   if (!cartToggle || !cartPanel || !cartItemsContainer || !cartCount || !cartTotal || !cartCheckout) {
     console.warn('Cart elements missing; merch carousel will work without cart.');
   }
 
   let merchItems = [];
   let merchIndex = 0;
-  // key: id, value: { id, name, price, qty }
-  const cartItems = new Map(); 
+
+  const selectedVariationByItemId = {};
+  const cartItems = new Map(); // key: variationId, value: { id, name, price, qty }
 
   function formatPrice(price) {
     const value = typeof price === 'number' ? price : parseFloat(price || '0');
@@ -126,40 +120,84 @@ function initMerchAndCart() {
 
         if (posClass === 'hidden') return '';
 
-        const priceLabel = item.price != null ? formatPrice(item.price) : '';
+        const variations = item.variations || [];
+        const inStockVariations = variations.filter(v => v.inStock !== false);
+        const hasInStock = inStockVariations.length > 0;
+        const itemSoldOut = !hasInStock;
+
+        const defaultVar = hasInStock
+          ? inStockVariations[0]
+          : variations[0] || null;
+
+        const currentSelectedId =
+          selectedVariationByItemId[item.id] || (defaultVar ? defaultVar.id : null);
+
+        const selectedVar =
+          variations.find(v => v.id === currentSelectedId) || defaultVar;
+
+        const priceLabel = selectedVar ? formatPrice(selectedVar.price) : '';
+
+        let variationControl = '';
+        if (variations.length > 1) {
+          const optionsHtml = variations
+            .map(v => {
+              const selectedAttr = v.id === currentSelectedId ? 'selected' : '';
+              const isInStock = v.inStock !== false;
+              const labelText = isInStock
+                ? `${v.label} – ${formatPrice(v.price)}`
+                : `${v.label} – Sold out`;
+              const disabledAttr = isInStock ? '' : 'disabled';
+
+              return `<option value="${v.id}" ${selectedAttr} ${disabledAttr}>${labelText}</option>`;
+            })
+            .join('');
+
+          variationControl = `
+            <select
+              class="w-full bg-black border border-white/30 text-[0.7rem] uppercase tracking-[0.12em] px-2 py-1 mt-2"
+              data-item-id="${item.id}">
+              ${optionsHtml}
+            </select>
+          `;
+        }
+
+        const canAddToCart = hasInStock;
 
         return `
-          <article class="merch-card ${posClass}" data-id="${item.id}">
-            <div class="merch-image-shell">
-              ${
-                item.imageUrl
-                  ? `<img src="${item.imageUrl}" class="merch-image-float" alt="${item.name}" />`
-                  : `<div class="text-[0.6rem] tracking-[0.35em] uppercase text-white/60 text-center px-4">${item.name}</div>`
-              }
-            </div>
+          <article class="merch-card ${posClass}" data-item-id="${item.id}">
+            <div class="relative w-full h-full">
+              <div class="merch-image-shell">
+                ${
+                  item.imageUrl
+                    ? `<img src="${item.imageUrl}" class="merch-image-float" alt="${item.name}" />`
+                    : `<div class="text-[0.6rem] tracking-[0.35em] uppercase text-white/60 text-center px-4">${item.name}</div>`
+                }
+              </div>
 
-            <div class="flex-grow space-y-1">
-              <h3 class="merch-title">${item.name}</h3>
-              ${
-                priceLabel
-                  ? `<div class="merch-price">${priceLabel}</div>`
-                  : ''
-              }
-            </div>
+              <div class="flex-grow space-y-1 px-0 pb-0">
+                <h3 class="merch-title">${item.name}</h3>
+                ${priceLabel ? `<div class="merch-price">${priceLabel}</div>` : ''}
+                <div class="mt-1 h-10">
+                  ${variationControl || ''}
+                </div>
+              </div>
 
-            <div class="mt-4">
-              <button
-                class="merch-buy-btn"
-                data-add-to-cart="${item.id}">
-                Add to cart
-              </button>
+              <div class="mt-4">
+                <button
+                  class="${canAddToCart ? 'merch-buy-btn' : 'opacity-40 cursor-not-allowed merch-buy-btn-sold-out'}"
+                  data-add-to-cart="${item.id}"
+                  ${canAddToCart ? '' : 'disabled'}>
+                  ${canAddToCart ? 'Add to cart' : 'Sold out'}
+                </button>
+              </div>
             </div>
           </article>
         `;
       })
       .join('');
 
-    carousel.innerHTML = html || '<div class="text-white/60 tracking-widest text-sm">Merch coming soon.</div>';
+    carousel.innerHTML =
+      html || '<div class="text-white/60 tracking-widest text-sm">Merch coming soon.</div>';
   }
 
   function animateStep(step) {
@@ -179,7 +217,6 @@ function initMerchAndCart() {
 
     let totalQty = 0;
     let totalAmount = 0;
-
     const rows = [];
 
     for (const item of cartItems.values()) {
@@ -198,23 +235,42 @@ function initMerchAndCart() {
     }
 
     cartCount.textContent = totalQty;
-    cartItemsContainer.innerHTML = rows.join('') || '<div class="text-[0.7rem] text-white/50">Cart is empty.</div>';
+    cartItemsContainer.innerHTML =
+      rows.join('') || '<div class="text-[0.7rem] text-white/50">Cart is empty.</div>';
     cartTotal.textContent = formatPrice(totalAmount);
   }
 
-  function addToCart(id) {
-    const item = merchItems.find(m => m.id === id);
+  function addToCart(itemId) {
+    const item = merchItems.find(m => m.id === itemId);
     if (!item) return;
 
-    const existing = cartItems.get(id);
+    const variations = item.variations || [];
+    const inStockVariations = variations.filter(v => v.inStock !== false);
+    if (!inStockVariations.length) return;
+
+    const defaultVar = inStockVariations[0];
+    const selectedId =
+      selectedVariationByItemId[itemId] || (defaultVar ? defaultVar.id : null);
+
+    const selectedVar =
+      inStockVariations.find(v => v.id === selectedId) || defaultVar;
+
+    if (!selectedVar) return;
+
+    const cartKey = selectedVar.id;
+    const cartName =
+      variations.length > 1
+        ? `${item.name} – ${selectedVar.label}`
+        : item.name;
+
+    const existing = cartItems.get(cartKey);
     if (existing) {
       existing.qty += 1;
     } else {
-      const priceValue = typeof item.price === 'number' ? item.price : parseFloat(item.price || '0');
-      cartItems.set(id, {
-        id: item.id,
-        name: item.name,
-        price: priceValue,
+      cartItems.set(cartKey, {
+        id: selectedVar.id,
+        name: cartName,
+        price: selectedVar.price,
         qty: 1,
       });
     }
@@ -222,9 +278,9 @@ function initMerchAndCart() {
     updateCartUI();
   }
 
-  function removeFromCart(id) {
-    if (!cartItems.has(id)) return;
-    cartItems.delete(id);
+  function removeFromCart(variationId) {
+    if (!cartItems.has(variationId)) return;
+    cartItems.delete(variationId);
     updateCartUI();
   }
 
@@ -279,6 +335,17 @@ function initMerchAndCart() {
 
       merchItems = items;
       merchIndex = 0;
+
+      for (const item of merchItems) {
+        const variations = item.variations || [];
+        const inStockVariations = variations.filter(v => v.inStock !== false);
+        if (inStockVariations.length) {
+          selectedVariationByItemId[item.id] = inStockVariations[0].id;
+        } else if (variations.length) {
+          selectedVariationByItemId[item.id] = variations[0].id;
+        }
+      }
+
       renderCarousel();
     } catch (err) {
       console.error('Error loading merch:', err);
@@ -295,24 +362,30 @@ function initMerchAndCart() {
     if (e.key === 'ArrowRight') animateStep(1);
   });
 
-  // Add-to-cart from merch cards
   carousel.addEventListener('click', e => {
     const addBtn = e.target.closest('[data-add-to-cart]');
     if (!addBtn) return;
-    const id = addBtn.getAttribute('data-add-to-cart');
-    addToCart(id);
+    const itemId = addBtn.getAttribute('data-add-to-cart');
+    addToCart(itemId);
   });
 
-  // Remove items from cart panel
+  carousel.addEventListener('change', e => {
+    const select = e.target.closest('select[data-item-id]');
+    if (!select) return;
+    const itemId = select.getAttribute('data-item-id');
+    const variationId = select.value;
+    selectedVariationByItemId[itemId] = variationId;
+    renderCarousel();
+  });
+
   if (cartItemsContainer) {
     cartItemsContainer.addEventListener('click', e => {
       const removeBtn = e.target.closest('[data-remove]');
       if (!removeBtn) return;
-      const id = removeBtn.getAttribute('data-remove');
-      removeFromCart(id);
+      const variationId = removeBtn.getAttribute('data-remove');
+      removeFromCart(variationId);
     });
   }
-
 
   if (cartToggle && cartPanel) {
     cartToggle.addEventListener('click', () => {
@@ -333,23 +406,11 @@ function initMerchAndCart() {
   loadMerch();
 }
 
-// Initializes icons and all interactive sections when the document is ready.
-function initPage() {
-  try {
-    if (window.lucide && typeof window.lucide.createIcons === 'function') {
-      window.lucide.createIcons();
-    }
-  } catch (err) {
-    console.warn('Lucide icons not initialized:', err);
+document.addEventListener('DOMContentLoaded', () => {
+  loadShows();
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
   }
-
-  initShows();
   initGallery();
   initMerchAndCart();
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initPage);
-} else {
-  initPage();
-}
+});
