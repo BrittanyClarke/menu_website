@@ -9,19 +9,31 @@ router.get('/', async (req, res) => {
   try {
     const items = await getMerchItems();
 
-    const publicItems = items.map(item => ({
-      id: item.itemId,
-      name: item.name,
-      imageUrl: item.imageUrl,
-      itemSoldOut: item.itemSoldOut,
-      variations: item.variations.map(v => ({
-        id: v.id,
-        label: v.label,
-        price: v.price,
-        quantity: v.quantity,
-        inStock: v.inStock,
-      })),
-    }));
+    console.log("items ", items.variations);
+    items.forEach(item => {
+      console.log(item.variations);
+    })
+
+    const publicItems = items.map(item => {
+      const gallery = item.galleryImageUrls || [];
+      const secondaryImages = gallery.filter(url => url !== item.imageUrl);
+    
+      return {
+        id: item.itemId,
+        name: item.name,
+        imageUrl: item.imageUrl,
+        secondaryImages,          // <–– add this
+        itemSoldOut: item.itemSoldOut,
+        variations: item.variations.map(v => ({
+          id: v.id,
+          label: v.label,
+          price: v.price,
+          quantity: v.quantity,
+          inStock: v.inStock,
+        })),
+      };
+    });
+    
 
     res.json(publicItems);
   } catch (err) {
