@@ -74,6 +74,7 @@ async function refreshMerchFromSquare() {
 
   const imageUrlById = {};
   for (const img of images) {
+    console.log("img is ", img)
     const data = img.imageData;
     if (data && data.url) {
       imageUrlById[img.id] = data.url;
@@ -98,11 +99,17 @@ async function refreshMerchFromSquare() {
     const variationName = vData.name || '';
     const label = variationName || 'Default';
 
-    let imageUrl = null;
-    const imageId = parentItem?.itemData?.imageIds?.[0] || vData.imageIds?.[0];
-    if (imageId && imageUrlById[imageId]) {
-      imageUrl = imageUrlById[imageId];
-    }
+    // all image ids attached to the ITEM and this VARIATION
+    const itemImageIds = parentItem?.itemData?.imageIds || [];
+    const variationImageIds = vData.imageIds || [];
+    const allImageIds = [...new Set([...itemImageIds, ...variationImageIds])];
+
+    const imageUrls = allImageIds
+      .map(id => imageUrlById[id])
+      .filter(Boolean); // only valid URLs
+
+    const primaryImageUrl = imageUrls[0] || null;
+
 
     const inv = inventoryByVariationId[variation.id];
     const quantity = inv?.quantity ?? null;
@@ -112,14 +119,26 @@ async function refreshMerchFromSquare() {
       itemsById[parentItemId] = {
         itemId: parentItemId,
         name: itemName,
-        imageUrl: imageUrl || null,
+        imageUrl: primaryImageUrl || null,
+        galleryImageUrls: imageUrls.slice(), // clone
         variations: [],
       };
+    } else {
+      // keep first primary image if we don't have one yet
+      if (!itemsById[parentItemId].imageUrl && primaryImageUrl) {
+        itemsById[parentItemId].imageUrl = primaryImageUrl;
+      }
+    
+      // merge gallery images across all variations (deduped)
+      const existing = new Set(itemsById[parentItemId].galleryImageUrls || []);
+      for (const url of imageUrls) {
+        if (!existing.has(url)) {
+          existing.add(url);
+          itemsById[parentItemId].galleryImageUrls.push(url);
+        }
+      }
     }
-
-    if (!itemsById[parentItemId].imageUrl && imageUrl) {
-      itemsById[parentItemId].imageUrl = imageUrl;
-    }
+    
 
     itemsById[parentItemId].variations.push({
       id: variation.id,
@@ -135,14 +154,21 @@ async function refreshMerchFromSquare() {
 
   for (const item of Object.values(itemsById)) {
     const hasInStock = item.variations.some(v => v.inStock);
+  
+    const gallery = item.galleryImageUrls && item.galleryImageUrls.length
+      ? item.galleryImageUrls
+      : (item.imageUrl ? [item.imageUrl] : []);
+  
     merch.push({
       itemId: item.itemId,
       name: item.name,
       imageUrl: item.imageUrl,
+      galleryImageUrls: gallery,
       variations: item.variations,
       itemSoldOut: !hasInStock,
     });
   }
+  
 
   merchCache = merch;
   lastFetch = Date.now();

@@ -95,49 +95,176 @@ function initMerchAndCart() {
     return `$${value.toFixed(2)}`;
   }
 
-  function openImageModal(src) {
+  function openImageModal(item) {
+    const images = [
+      item.imageUrl,
+      ...(item.secondaryImages || []),
+    ].filter(Boolean);
+  
+    if (!images.length) return;
+  
+    const hasMultiple = images.length > 1;
+    let currentIndex = 0;
+  
+    // Backdrop element
     const modal = document.createElement('div');
     modal.className =
-      'fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[999]';
+      'fixed inset-0 bg-black/80 flex items-center justify-center z-[999] ' +
+      'opacity-0 transition-opacity duration-150 ease-out';
   
+    // Inner modal box
     modal.innerHTML = `
-      <div class="relative max-w-3xl w-[20vw] mx-auto rounded-lg shadow-xl overflow-hidden">
-        <button
-          type="button"
-          class="absolute top-3 right-3 bg-black/70 text-white text-sm px-3 py-1 tracking-[0.2em] uppercase"
-          data-modal-close>
-          Close
-        </button>
-        <div>
-          <img src="${src}" class="w-full h-auto object-contain" />
+      <div class="relative bg-black border border-white/20 shadow-2xl rounded-sm
+                  w-[70vw] max-w-[520px] max-h-[80vh] mx-4 my-6
+                  flex flex-col overflow-hidden
+                  transform scale-95 transition-transform duration-150 ease-out"
+           data-modal-box>
+  
+        <!-- Top-right X in white box -->
+        <div class="absolute top-3 right-3">
+          <button
+            type="button"
+            class="w-8 h-8 flex items-center justify-center bg-white text-black
+                   text-lg font-bold border border-white hover:bg-black hover:text-white transition"
+            data-modal-close-x>
+            ✕
+          </button>
+        </div>
+  
+        <!-- Image area with consistent frame -->
+        <div class="flex-1 flex items-center justify-center px-5 pt-10 pb-3">
+          <div class="w-full h-[320px] max-h-[55vh] flex items-center justify-center">
+            <img
+              src="${images[0]}"
+              data-modal-main
+              class="object-contain max-h-full max-w-full mx-auto"
+            />
+          </div>
+        </div>
+  
+        ${
+          hasMultiple
+            ? `
+          <!-- LEFT ARROW -->
+          <button
+            type="button"
+            class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center
+                   border border-white/40 text-2xl text-white/80 hover:bg-white hover:text-black transition"
+            data-modal-prev>
+            ‹
+          </button>
+  
+          <!-- RIGHT ARROW -->
+          <button
+            type="button"
+            class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center
+                   border border-white/40 text-2xl text-white/80 hover:bg-white hover:text-black transition"
+            data-modal-next>
+            ›
+          </button>
+          `
+            : ''
+        }
+  
+        <!-- Footer CLOSE button (like ADD TO CART, no border line above) -->
+        <div class="px-5 pb-5 pt-1 flex justify-center">
+          <button
+            type="button"
+            class="px-8 py-3 bg-white text-black uppercase tracking-[0.35em]
+                   border border-white/80 text-[0.7rem]
+                   hover:bg-black hover:text-white transition"
+            data-modal-close-btn>
+            Close
+          </button>
         </div>
       </div>
     `;
   
     document.body.appendChild(modal);
   
-    modal.addEventListener('click', e => {
-      const clickedOutside = e.target === modal;
-      const clickedClose = e.target.closest('[data-modal-close]');
-      if (clickedOutside || clickedClose) {
-        modal.remove();
+    const box = modal.querySelector('[data-modal-box]');
+    const mainImg = modal.querySelector('[data-modal-main]');
+    const prevBtn = modal.querySelector('[data-modal-prev]');
+    const nextBtn = modal.querySelector('[data-modal-next]');
+    const closeX = modal.querySelector('[data-modal-close-x]');
+    const closeBtn = modal.querySelector('[data-modal-close-btn]');
+  
+    // Fade / scale IN
+    requestAnimationFrame(() => {
+      modal.classList.remove('opacity-0');
+      modal.classList.add('opacity-100');
+      if (box) {
+        box.classList.remove('scale-95');
+        box.classList.add('scale-100');
       }
     });
+  
+    function showImage(index) {
+      currentIndex = (index + images.length) % images.length;
+      mainImg.src = images[currentIndex];
+    }
+  
+    function handleKeydown(e) {
+      if (e.key === 'Escape') return closeModal();
+      if (!hasMultiple) return;
+  
+      if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+      if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+    }
+  
+    function closeModal() {
+      window.removeEventListener('keydown', handleKeydown);
+  
+      // Fade / scale OUT
+      modal.classList.remove('opacity-100');
+      modal.classList.add('opacity-0');
+      if (box) {
+        box.classList.remove('scale-100');
+        box.classList.add('scale-95');
+      }
+  
+      const removeAfterTransition = () => {
+        modal.removeEventListener('transitionend', removeAfterTransition);
+        modal.remove();
+      };
+  
+      modal.addEventListener('transitionend', removeAfterTransition);
+    }
+  
+    if (hasMultiple) {
+      prevBtn?.addEventListener('click', () => showImage(currentIndex - 1));
+      nextBtn?.addEventListener('click', () => showImage(currentIndex + 1));
+    }
+  
+    closeX.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+  
+    // Click outside overlay closes modal
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeModal();
+    });
+  
+    window.addEventListener('keydown', handleKeydown);
   }
+  
+  
   
 
   carousel.addEventListener('click', e => {
-    // Only respond when clicking on the merch image area
     const imgShell = e.target.closest('.merch-image-shell');
     if (!imgShell) return;
   
-    // Find the image inside the card that was clicked
-    const img = imgShell.querySelector('img');
-    if (!img) return;
+    const card = imgShell.closest('.merch-card');
+    if (!card) return;
   
-    const src = img.src;
-    openImageModal(src);
+    const itemId = card.getAttribute('data-item-id');
+    const item = merchItems.find(m => m.id === itemId);
+    if (!item) return;
+  
+    openImageModal(item);
   });
+  
+  
   
   
 
