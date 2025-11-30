@@ -65,6 +65,7 @@ function initGallery() {
 
 // Handles merch carousel, size variations, cart state, and checkout flow.
 function initMerchAndCart() {
+  const bodyElement = document.body;
   const carousel = document.getElementById('merch-carousel');
   const prevBtn = document.getElementById('merch-prev');
   const nextBtn = document.getElementById('merch-next');
@@ -93,6 +94,52 @@ function initMerchAndCart() {
     const value = typeof price === 'number' ? price : parseFloat(price || '0');
     return `$${value.toFixed(2)}`;
   }
+
+  function openImageModal(src) {
+    const modal = document.createElement('div');
+    modal.className =
+      'fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[999]';
+  
+    modal.innerHTML = `
+      <div class="relative max-w-3xl w-[20vw] mx-auto rounded-lg shadow-xl overflow-hidden">
+        <button
+          type="button"
+          class="absolute top-3 right-3 bg-black/70 text-white text-sm px-3 py-1 tracking-[0.2em] uppercase"
+          data-modal-close>
+          Close
+        </button>
+        <div>
+          <img src="${src}" class="w-full h-auto object-contain" />
+        </div>
+      </div>
+    `;
+  
+    document.body.appendChild(modal);
+  
+    modal.addEventListener('click', e => {
+      const clickedOutside = e.target === modal;
+      const clickedClose = e.target.closest('[data-modal-close]');
+      if (clickedOutside || clickedClose) {
+        modal.remove();
+      }
+    });
+  }
+  
+
+  carousel.addEventListener('click', e => {
+    // Only respond when clicking on the merch image area
+    const imgShell = e.target.closest('.merch-image-shell');
+    if (!imgShell) return;
+  
+    // Find the image inside the card that was clicked
+    const img = imgShell.querySelector('img');
+    if (!img) return;
+  
+    const src = img.src;
+    openImageModal(src);
+  });
+  
+  
 
   function renderCarousel() {
     if (!merchItems.length) {
@@ -161,6 +208,8 @@ function initMerchAndCart() {
           `;
         }
 
+        
+
         const canAddToCart = hasInStock;
 
         return `
@@ -169,7 +218,7 @@ function initMerchAndCart() {
               <div class="merch-image-shell">
                 ${
                   item.imageUrl
-                    ? `<img src="${item.imageUrl}" class="merch-image-float" alt="${item.name}" />`
+                    ? `<img src="${item.imageUrl}" class="merch-image-float" id="merch-image-float-id" alt="${item.name}"/>`
                     : `<div class="text-[0.6rem] tracking-[0.35em] uppercase text-white/60 text-center px-4">${item.name}</div>`
                 }
               </div>
@@ -198,6 +247,16 @@ function initMerchAndCart() {
 
     carousel.innerHTML =
       html || '<div class="text-white/60 tracking-widest text-sm">Merch coming soon.</div>';
+
+
+  }
+
+  
+
+  function helloFunc(merchImgTag) {
+    let merchImage = merchImageTag.scr;
+    console.log("BEFORE ", merchImage);
+    console.log("hello inside my function!", merchImgTag);
   }
 
   function animateStep(step) {

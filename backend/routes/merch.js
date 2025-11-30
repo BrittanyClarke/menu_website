@@ -9,6 +9,8 @@ router.get('/', async (req, res) => {
   try {
     const items = await getMerchItems();
 
+    console.log("items ", items);
+
     const publicItems = items.map(item => ({
       id: item.itemId,
       name: item.name,
