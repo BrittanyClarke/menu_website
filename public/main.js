@@ -540,6 +540,117 @@ function initMerchAndCart() {
     }
   }
 
+  async function loadLatestMusic() {
+  try {
+    const res = await fetch('/api/music/latest');
+    if (!res.ok) throw new Error("Music fetch failed");
+
+    const data = await res.json();
+    if (!data) return;
+
+    const musicSection = document.querySelector('#music .grid');
+    if (!musicSection) return;
+
+    const cover = data.images?.[0]?.url || "/fallback.jpg";
+    const name = data.name || "Latest Release";
+    const releaseYear = data.release_date?.slice(0, 4);
+
+    musicSection.innerHTML = `
+      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/06JbgP8yAn8qwYjAB7pryF?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+      <div>
+        <p class="text-sm opacity-60 mb-2 tracking-widest">LATEST RELEASE</p>
+        <h3 class="text-5xl mb-4 leading-tight">${name}</h3>
+        <p class="text-xl opacity-60 mb-8">${releaseYear}</p>
+                <p class="text-xs opacity-60 mb-4 tracking-[0.25em] uppercase">Listen on</p>
+  
+        <div class="flex flex-wrap gap-6">
+          <!-- We will only update the href for Spotify via JS, the rest stay as is -->
+          <a
+            href="https://open.spotify.com/artist/3K0KJBedbI1lEoTHc1zBPa?si=Cus7cwJJROexizToMZGWzQ&dl_branch=1"
+            data-music-link="spotify"
+            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
+          >
+            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-green-400 transition">
+              <i class="fa-brands fa-spotify text-white group-hover:text-green-400"></i>
+            </div>
+            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">SPOTIFY</span>
+          </a>
+  
+          <!-- All the rest stay exactly as before -->
+          <a
+            href="https://geo.music.apple.com/us/album/_/1848795480?app=music&at=1000lHKX&ct=linktree_http&i=1848795481"
+            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
+          >
+            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-pink-400 transition">
+              <i class="fa-brands fa-apple text-white group-hover:text-pink-400"></i>
+            </div>
+            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">APPLE</span>
+          </a>
+  
+          <a
+            href="https://music.youtube.com/playlist?list=OLAK5uy_k8dFaiUIR43r-yfPtpoe98wTVGGoc4owM"
+            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
+          >
+            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-red-500 transition">
+              <i class="fa-brands fa-youtube text-white group-hover:text-red-500"></i>
+            </div>
+            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">YOUTUBE</span>
+          </a>
+  
+          <a
+            href="https://www.pandora.com/TR:177656958"
+            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
+          >
+            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-sky-400 transition">
+              <i class="fa-solid fa-radio text-white group-hover:text-sky-400"></i>
+            </div>
+            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">PANDORA</span>
+          </a>
+  
+          <a
+            href="https://menuatlga.bandcamp.com/"
+            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
+          >
+            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-teal-300 transition">
+              <i class="fa-brands fa-bandcamp text-white group-hover:text-teal-300"></i>
+            </div>
+            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">BANDCAMP</span>
+          </a>
+  
+          <a
+            href="https://listen.tidal.com/track/468978923"
+            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
+          >
+            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-blue-400 transition">
+              <i class="fa-solid fa-diamond text-white group-hover:text-blue-400"></i>
+            </div>
+            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">TIDAL</span>
+          </a>
+  
+          <a
+            href="https://music.amazon.com/albums/B0FXK6BS9J?trackAsin=B0FXK3G96V"
+            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
+          >
+            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-yellow-400 transition">
+              <i class="fa-brands fa-amazon text-white group-hover:text-yellow-400"></i>
+            </div>
+            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">AMAZON</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+      </div>
+
+      
+    `;
+  } catch (err) {
+    console.error("Error loading Spotify music:", err);
+  }
+}
+
+
   prevBtn.addEventListener('click', () => animateStep(-1));
   nextBtn.addEventListener('click', () => animateStep(1));
 
@@ -590,6 +701,7 @@ function initMerchAndCart() {
   }
 
   loadMerch();
+  loadLatestMusic();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
