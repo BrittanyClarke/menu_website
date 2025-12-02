@@ -562,6 +562,10 @@ function initMerchAndCart() {
         <p class="text-sm opacity-60 mb-2 tracking-widest">LATEST RELEASE</p>
         <h3 class="text-5xl mb-4 leading-tight">${name}</h3>
         <p class="text-xl opacity-60 mb-8">${releaseYear}</p>
+            <p class="max-w-2xl text-white/70 mb-10 text-sm leading-relaxed">
+      Stream ${name} and the rest of the MENU catalog on Spotify, Apple Music, and YouTube. 
+      Alternative pop rock from Atlanta with big choruses, raw emotion, and high energy live shows.
+    </p>
                 <p class="text-xs opacity-60 mb-4 tracking-[0.25em] uppercase">Listen on</p>
   
         <div class="flex flex-wrap gap-6">
