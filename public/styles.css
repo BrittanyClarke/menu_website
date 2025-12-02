@@ -19,7 +19,7 @@
     align-items: stretch;
     justify-content: flex-start;
     padding: 1.5rem 1.75rem;
-    width: 260px;
+    /* width: 260px; */
     max-width: 80vw;
     height: 430px;
   
@@ -129,10 +129,99 @@
     border:1px solid rgba(255,255,255,0.8);
     transition:.22s ease;
   }
-    /* .merch-buy-btn-sold-out:hover {
-      background:black;
-      color:white;
-      border-color:white;
-      transform:translateY(-2px);
-      box-shadow:0 0 30px rgba(255,255,255,0.25); */
+/* Stop sideways scroll site-wide */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Keep merch carousel from extending horizontally but allow vertical overflow */
+#merch-carousel {
+  overflow-x: hidden;
+  overflow-y: visible;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+
+/* Mobile: resize cards so title + button fit */
+@media (max-width: 640px) {
+  #merch-carousel {
+    position: relative;
+    padding-top: 10rem;  /* space between cart + card */
+  }
+  .merch-card {
+    width: 60vw;
+    max-width: 360px;
+    height: auto;         /* let it grow */
+    min-height: 430px;    /* keep your general size vibe */
+    margin: 0 auto;
+  }
+
+  .merch-image-shell {
+    height: 180px;
+    margin-bottom: 0.75rem;
+  }
+
+  .merch-title {
+    font-size: 0.95rem;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .merch-price {
+    font-size: 0.85rem;
+  }
+
+  .merch-buy-btn,
+  .merch-buy-btn-sold-out {
+    padding: 0.9rem 1.25rem;
+    font-size: 0.68rem;
+  }
+}
+/* Keep cart toggle and panel above the merch card visually */
+#cart-toggle,
+#cart-panel {
+  position: relative;
+  z-index: 50;   /* higher than the merch-card z-classes like z-30 */
+}
+
+/* Force merch titles to stay on one line and show ellipsis */
+.merch-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Fade edges for merch carousel */
+#merch-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+#merch-carousel::before,
+#merch-carousel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;             /* how wide the fade is — adjust to taste */
+  pointer-events: none;    /* clicks pass through to carousel */
+  z-index: 40;             /* above ghost cards but below main UI */
+}
+
+/* Left fade */
+#merch-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0));
+}
+
+/* Right fade */
+#merch-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
+}
+
+
+
   

@@ -3,138 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MENU – Official</title>
+  <title>MENU Site | ATL Band </title>
 
+  <meta
+    name="description"
+    content="MENU is an alternative pop rock band from Atlanta. Watch live videos, stream the latest release MIZU, and grab limited run merch directly from the band."
+  />
+  
+  <link rel="canonical" href="https://menuatlga.com/" />
+  
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="MENU | Official site | Pop rock punk band from Atlanta" />
+  <meta
+    property="og:description"
+    content="Discover MENU. Stream MIZU, watch live footage, and shop official merch."
+  />
+  <meta property="og:url" content="https://menuatlga.com/" />
+  <meta property="og:image" content="https://menuatlga.com/photoshoots/menu_concert.jpg" />
+  
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MENU | Official site" />
+  <meta
+    name="twitter:description"
+    content="Pop rock punk from Atlanta. Stream the music and shop merch."
+  />
+  <meta name="twitter:image" content="https://menuatlga.com/photoshoots/menu_concert.jpg" />
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    /* Merch carousel container */
-    #merch-carousel {
-      perspective: 1400px;
-      opacity: 1;
-      transform: scale(1);
-      transition: opacity .22s ease, transform .22s ease;
-    }
 
-    #merch-carousel.carousel-fade {
-      opacity: 0;
-      transform: scale(0.98);
-    }
 
-    /* Merch card shell */
-    .merch-card {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      justify-content: flex-start;
-      padding: 1.5rem 1.75rem;
-      width: 260px;
-      max-width: 80vw;
-      height: 430px;
-      backdrop-filter: blur(12px);
-      background: rgba(20,20,20,0.92);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 0;
-      overflow: hidden;
-      box-shadow: 0 18px 60px rgba(0,0,0,0.9);
-      transition: transform .26s ease-out, box-shadow .26s ease-out, opacity .26s ease-out;
-      transform-origin: center center;
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    "name": "MENU",
+    "genre": "Alternative pop rock",
+    "url": "https://menuatlga.com/",
+    "image": "https://menuatlga.com/photoshoots/menu_logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Atlanta",
+      "addressRegion": "GA",
+      "addressCountry": "US"
+    },
+    "sameAs": [
+      "https://open.spotify.com/artist/3K0KJBedbI1lEoTHc1zBPa",
+      "https://music.apple.com/us/artist/1543498108",
+      "https://www.instagram.com/canigetamenudamn",
+      "https://www.youtube.com/@canigetamenudamn"
+    ],
+    "album": {
+      "@type": "MusicAlbum",
+      "name": "MIZU",
+      "byArtist": "MENU"
     }
-
-    @media (min-width: 640px) {
-      .merch-card { width: 300px; }
-    }
-
-    @media (min-width: 768px) {
-      .merch-card { width: 320px; }
-    }
-
-    /* Floating merch image */
-    .merch-image-shell {
-      position: relative;
-      width: 100%;
-      height: 210px;
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.04);
-      border-radius: 0;
-      overflow: hidden;
-    }
-
-    @media (min-width: 640px) {
-      .merch-image-shell { height: 210px; }
-    }
-
-    .merch-image-float {
-      position: relative;
-      max-width: 88%;
-      max-height: 100%;
-      object-fit: contain;
-      z-index: 2;
-      filter: drop-shadow(0 14px 30px rgba(0,0,0,0.85));
-      transform-origin: center bottom;
-      transition: transform 260ms ease-out, filter 260ms ease-out;
-    }
-
-    .merch-card:hover .merch-image-float {
-      transform: none;
-    }
-
-    .merch-title {
-      font-size: 1.05rem;
-      letter-spacing: 0.05em;
-    }
-
-    .merch-price {
-      font-size: .9rem;
-      opacity: .78;
-    }
-
-    .merch-buy-btn {
-      display: flex;
-      width: 100%;
-      justify-content: center;
-      padding: 0.95rem 1.5rem;
-      font-size: .72rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      background: #fff;
-      color: #000;
-      border: 1px solid rgba(255,255,255,0.8);
-      transition: .22s ease;
-      text-align: center;
-    }
-
-    .merch-buy-btn:hover {
-      background: black;
-      color: white;
-      border-color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px rgba(255,255,255,0.25);
-    }
-
-    .merch-buy-btn:active {
-      transform: translateY(0);
-      box-shadow: none;
-    }
-    .merch-buy-btn-sold-out {
-    display:flex;
-    width:100%;
-    justify-content:center;
-    padding:0.95rem 1.5rem;
-    font-size:.72rem;
-    letter-spacing:0.35em;
-    text-transform:uppercase;
-    background:black;
-    color:white;
-    border:1px solid rgba(255,255,255,0.8);
-    transition:.22s ease;
   }
-  </style>
+  </script>
+  
 </head>
 
 <body class="bg-black text-white font-sans overflow-x-hidden">
@@ -154,13 +82,23 @@
 
   <!-- HERO -->
   <section id="hero" class="min-h-screen flex items-end relative overflow-hidden">
-    <img src="/photoshoots/menu_concert.JPG" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+    <img src="/photoshoots/menu_concert.JPG"
+         class="absolute inset-0 w-full h-full object-cover opacity-40"
+         alt="MENU performing live on stage in Atlanta" />
     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
-
+  
     <div class="relative z-10 p-8 pb-24 flex flex-col items-start">
       <div class="w-[70vw] max-w-[800px]">
-        <img src="/photoshoots/menu_logo.png" class="w-full h-auto mx-auto drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]" />
+        <!-- Main page heading for SEO and accessibility -->
+        <h1 class="sr-only">
+          MENU, an alternative pop rock band from Atlanta Georgia
+        </h1>
+  
+        <img src="/photoshoots/menu_logo.png"
+             class="w-full h-auto mx-auto drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]"
+             alt="MENU band logo" />
       </div>
+  
 
       <a href="https://www.bandsintown.com/a/11158963?came_from=267&app_id=linktree-0011158963&utm_medium=api&utm_source=public_api&utm_campaign=artist">
         <p class="uppercase tracking-widest text-white/80 text-lg mt-4 mb-8">Upcoming Shows</p>
@@ -181,7 +119,7 @@
 
   <!-- ABOUT -->
   <section id="about" class="min-h-screen bg-black px-8 py-24 flex flex-col lg:flex-row items-center gap-16">
-    <img src="/photoshoots/menu_group_pic.jpg" class="w-full lg:w-1/2 h-[60vh] object-cover rounded" />
+    <img src="/photoshoots/menu_group_pic.jpg" class="w-full lg:w-1/2 h-[60vh] object-cover rounded" alt="Group photo of MENU band in Atlanta"/>
 
     <div class="lg:w-1/2">
       <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] mb-6 leading-[0.85]">
@@ -215,11 +153,7 @@
   <!-- MUSIC -->
   <section id="music" class="bg-zinc-950 text-white py-24 px-8">
     <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-12">MUSIC</h2>
-  
-    <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-
-    </div>
-  
+    <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto"></div>
   </section>
   
 
@@ -267,9 +201,10 @@
   
       <!-- Carousel -->
       <div
-        id="merch-carousel"
-        class="relative flex items-center justify-center h-[380px] sm:h-[430px] md:h-[480px]">
-      </div>
+      id="merch-carousel"
+      class="relative flex items-center justify-center h-[480px] sm:h-[520px]">
+    </div>
+    
   
       <!-- Carousel controls -->
       <div class="mt-12 flex items-center justify-center gap-10">
@@ -306,7 +241,7 @@
                   max-h-[1100px] md:max-h-[1400px] overflow-hidden
                   transition-[max-height] duration-700 ease-out">
 
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/1.jpg" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
+        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/1.jpg" alt="Group photo of MENU band in Atlanta" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
         <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/5.jpg" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
         <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/4.jpg" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
         <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/6.jpg" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
