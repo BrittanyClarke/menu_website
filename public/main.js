@@ -591,9 +591,25 @@ function initMerchAndCart() {
     const cover = data.images?.[0]?.url || "/fallback.jpg";
     const name = data.name || "Latest Release";
     const releaseYear = data.release_date?.slice(0, 4);
-
+//      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/06JbgP8yAn8qwYjAB7pryF?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     musicSection.innerHTML = `
-      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/06JbgP8yAn8qwYjAB7pryF?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+      <div id="spotify-cover-wrapper"
+     class="relative group cursor-pointer w-full h-full rounded-lg overflow-hidden">
+
+  <img id="spotify-cover-image"
+       src=""
+       alt="Latest MENU Release"
+       class="w-full h-full object-cover opacity-0 transition-opacity duration-500" />
+
+  <!-- Play Button Overlay -->
+  <div class="absolute inset-0 flex items-center justify-center bg-black/30
+              backdrop-blur-sm opacity-0 group-hover:opacity-100 transition">
+    <div class="w-20 h-20 rounded-full bg-white/70 flex items-center justify-center text-black text-4xl">
+      ▶
+    </div>
+  </div>
+</div>
 
       <div>
         <p class="text-sm opacity-60 mb-2 tracking-widest">LATEST RELEASE</p>
@@ -709,6 +725,48 @@ function initMerchAndCart() {
   }
 }
 
+async function loadLatestReleaseImage() {
+  try {
+    const resp = await fetch('/api/music/latest');
+    const album = await resp.json();
+
+    if (!album || !album.images || !album.images.length) {
+      console.error('No album cover found');
+      return;
+    }
+
+    const coverUrl = album.images[0].url; // Spotify always puts highest res first
+    const img = document.getElementById('spotify-cover-image');
+    const wrapper = document.getElementById('spotify-cover-wrapper');
+
+    // Set album cover
+    img.src = coverUrl;
+
+    // Fade in once loaded
+    img.onload = () => {
+      img.classList.remove('opacity-0');
+    };
+
+    // On click: replace image with Spotify iframe
+    wrapper.onclick = () => {
+      wrapper.innerHTML = `
+        <iframe
+          src="https://open.spotify.com/embed/album/${album.id}?utm_source=generator"
+          width="100%"
+          height="380"
+          frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          class="rounded-lg"
+        ></iframe>
+      `;
+    };
+
+  } catch (err) {
+    console.error('Error loading Spotify latest release:', err);
+  }
+}
+
 
   prevBtn.addEventListener('click', () => animateStep(-1));
   nextBtn.addEventListener('click', () => animateStep(1));
@@ -761,6 +819,7 @@ function initMerchAndCart() {
 
   loadMerch();
   loadLatestMusic();
+  loadLatestReleaseImage();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
