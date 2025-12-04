@@ -398,6 +398,43 @@ function initMerchAndCart() {
     }, 220);
   }
 
+    // --- Swipe support for touch devices ---
+    let touchStartX = null;
+    let touchStartY = null;
+  
+    const SWIPE_THRESHOLD = 40; // minimum horizontal movement in px to count as swipe
+  
+    carousel.addEventListener('touchstart', e => {
+      if (!e.touches || e.touches.length === 0) return;
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+    });
+  
+    carousel.addEventListener('touchend', e => {
+      if (touchStartX === null || touchStartY === null) return;
+      if (!e.changedTouches || e.changedTouches.length === 0) return;
+  
+      const touch = e.changedTouches[0];
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+  
+      // Only treat as swipe if mostly horizontal
+      if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) {
+          // swipe left -> next item
+          animateStep(1);
+        } else {
+          // swipe right -> previous item
+          animateStep(-1);
+        }
+      }
+  
+      touchStartX = null;
+      touchStartY = null;
+    });
+  
+
   function updateCartUI() {
     if (!cartCount || !cartItemsContainer || !cartTotal) return;
 
@@ -568,82 +605,100 @@ function initMerchAndCart() {
     </p>
                 <p class="text-xs opacity-60 mb-4 tracking-[0.25em] uppercase">Listen on</p>
   
-        <div class="flex flex-wrap gap-6">
-          <!-- We will only update the href for Spotify via JS, the rest stay as is -->
-          <a
-            href="https://open.spotify.com/artist/3K0KJBedbI1lEoTHc1zBPa?si=Cus7cwJJROexizToMZGWzQ&dl_branch=1"
-            data-music-link="spotify"
-            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
-          >
-            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-green-400 transition">
-              <i class="fa-brands fa-spotify text-white group-hover:text-green-400"></i>
-            </div>
-            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">SPOTIFY</span>
-          </a>
-  
-          <!-- All the rest stay exactly as before -->
-          <a
-            href="https://geo.music.apple.com/us/album/_/1848795480?app=music&at=1000lHKX&ct=linktree_http&i=1848795481"
-            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
-          >
-            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-pink-400 transition">
-              <i class="fa-brands fa-apple text-white group-hover:text-pink-400"></i>
-            </div>
-            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">APPLE</span>
-          </a>
-  
-          <a
-            href="https://music.youtube.com/playlist?list=OLAK5uy_k8dFaiUIR43r-yfPtpoe98wTVGGoc4owM"
-            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
-          >
-            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-red-500 transition">
-              <i class="fa-brands fa-youtube text-white group-hover:text-red-500"></i>
-            </div>
-            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">YOUTUBE</span>
-          </a>
-  
-          <a
-            href="https://www.pandora.com/TR:177656958"
-            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
-          >
-            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-sky-400 transition">
-              <i class="fa-solid fa-radio text-white group-hover:text-sky-400"></i>
-            </div>
-            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">PANDORA</span>
-          </a>
-  
-          <a
-            href="https://menuatlga.bandcamp.com/"
-            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
-          >
-            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-teal-300 transition">
-              <i class="fa-brands fa-bandcamp text-white group-hover:text-teal-300"></i>
-            </div>
-            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">BANDCAMP</span>
-          </a>
-  
-          <a
-            href="https://listen.tidal.com/track/468978923"
-            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
-          >
-            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-blue-400 transition">
-              <i class="fa-solid fa-diamond text-white group-hover:text-blue-400"></i>
-            </div>
-            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">TIDAL</span>
-          </a>
-  
-          <a
-            href="https://music.amazon.com/albums/B0FXK6BS9J?trackAsin=B0FXK3G96V"
-            class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition"
-          >
-            <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-yellow-400 transition">
-              <i class="fa-brands fa-amazon text-white group-hover:text-yellow-400"></i>
-            </div>
-            <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white">AMAZON</span>
-          </a>
-        </div>
-      </div>
+<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 text-center place-items-center w-full">
+  <!-- Spotify -->
+  <a
+    href="https://open.spotify.com/artist/3K0KJBedbI1lEoTHc1zBPa?si=Cus7cwJJROexizToMZGWzQ&dl_branch=1"
+    data-music-link="spotify"
+    class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition w-full"
+  >
+    <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-green-400 transition">
+      <i class="fa-brands fa-spotify text-white group-hover:text-green-400"></i>
     </div>
+    <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white whitespace-nowrap">
+      SPOTIFY
+    </span>
+  </a>
+
+  <!-- Apple -->
+  <a
+    href="https://geo.music.apple.com/us/album/_/1848795480?app=music&at=1000lHKX&ct=linktree_http&i=1848795481"
+    class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition w-full"
+  >
+    <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-pink-400 transition">
+      <i class="fa-brands fa-apple text-white group-hover:text-pink-400"></i>
+    </div>
+    <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white whitespace-nowrap">
+      APPLE
+    </span>
+  </a>
+
+  <!-- YouTube -->
+  <a
+    href="https://music.youtube.com/playlist?list=OLAK5uy_k8dFaiUIR43r-yfPtpoe98wTVGGoc4owM"
+    class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition w-full"
+  >
+    <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-red-500 transition">
+      <i class="fa-brands fa-youtube text-white group-hover:text-red-500"></i>
+    </div>
+    <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white whitespace-nowrap">
+      YOUTUBE
+    </span>
+  </a>
+
+  <!-- Pandora -->
+  <a
+    href="https://www.pandora.com/TR:177656958"
+    class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition w-full"
+  >
+    <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-sky-400 transition">
+      <i class="fa-solid fa-radio text-white group-hover:text-sky-400"></i>
+    </div>
+    <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white whitespace-nowrap">
+      PANDORA
+    </span>
+  </a>
+
+  <!-- Bandcamp -->
+  <a
+    href="https://menuatlga.bandcamp.com/"
+    class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition w-full"
+  >
+    <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-teal-300 transition">
+      <i class="fa-brands fa-bandcamp text-white group-hover:text-teal-300"></i>
+    </div>
+    <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white whitespace-nowrap">
+      BANDCAMP
+    </span>
+  </a>
+
+  <!-- Tidal -->
+  <a
+    href="https://listen.tidal.com/track/468978923"
+    class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition w-full"
+  >
+    <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-blue-400 transition">
+      <i class="fa-solid fa-diamond text-white group-hover:text-blue-400"></i>
+    </div>
+    <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white whitespace-nowrap">
+      TIDAL
+    </span>
+  </a>
+
+  <!-- Amazon -->
+  <a
+    href="https://music.amazon.com/albums/B0FXK6BS9J?trackAsin=B0FXK3G96V"
+    class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition w-full"
+  >
+    <div class="w-10 h-10 flex items-center justify-center border border-white/40 group-hover:border-yellow-400 transition">
+      <i class="fa-brands fa-amazon text-white group-hover:text-yellow-400"></i>
+    </div>
+    <span class="text-[0.65rem] tracking-widest text-white/60 group-hover:text-white whitespace-nowrap">
+      AMAZON
+    </span>
+  </a>
+</div>
+
   </section>
       </div>
 
@@ -709,6 +764,28 @@ function initMerchAndCart() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const hamburgerToggle = document.getElementById('hamburger-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+  function toggleMobileMenu() {
+    mobileMenu.classList.toggle('hidden');
+    mobileMenu.classList.toggle('show');
+    hamburgerToggle.classList.toggle('open');
+    hamburgerToggle.classList.toggle('closed');
+  }
+
+  // EXPOSE GLOBALLY
+  window.toggleMobileMenu = toggleMobileMenu;
+
+  if (hamburgerToggle) {
+    hamburgerToggle.addEventListener('click', toggleMobileMenu);
+  }
+
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', toggleMobileMenu);
+  }
+
   loadShows();
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     window.lucide.createIcons();

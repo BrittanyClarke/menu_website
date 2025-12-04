@@ -9,9 +9,7 @@
     name="description"
     content="MENU is an alternative pop rock band from Atlanta. Watch live videos, stream the latest release MIZU, and grab limited run merch directly from the band."
   />
-  
   <link rel="canonical" href="https://menuatlga.com/" />
-  
   <meta property="og:type" content="website" />
   <meta property="og:title" content="MENU | Official site | Pop rock punk band from Atlanta" />
   <meta
@@ -20,7 +18,6 @@
   />
   <meta property="og:url" content="https://menuatlga.com/" />
   <meta property="og:image" content="https://menuatlga.com/photoshoots/menu_concert.jpg" />
-  
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="MENU | Official site" />
   <meta
@@ -34,7 +31,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
 
-
+<!-- SEO -->
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -68,23 +65,46 @@
 <body class="bg-black text-white font-sans overflow-x-hidden">
 
   <!-- NAV -->
-  <nav class="fixed inset-x-0 top-0 z-50 mix-blend-difference px-6 py-6 flex justify-between items-center">
+  <nav class="fixed inset-x-0 top-0 z-20 mix-blend-difference px-6 py-6 flex justify-between items-center">
     <button class="text-white text-2xl tracking-[0.3em] italic">MENU</button>
+    
+    <!-- Desktop Navigation -->
     <div class="hidden md:flex gap-6 text-lg tracking-wider">
       <a href="#about" class="hover:italic">ABOUT</a>
-      <a href="#shows" class="hover:italic">LIVE</a>
+      <a href="#shows" class="hover:italic">SHOWS</a>
       <a href="#music" class="hover:italic">MUSIC</a>
       <a href="#merch" class="hover:italic">MERCH</a>
       <a href="#gallery" class="hover:italic">PHOTOS</a>
       <a href="#contact" class="hover:italic">CONTACT</a>
     </div>
+  
+    <!-- Mobile Hamburger Menu -->
+    <button id="hamburger-toggle" class="md:hidden text-white text-2xl">
+      <i class="fa-solid fa-bars"></i>
+    </button>
   </nav>
+  
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed inset-0 bg-black text-white hidden z-40">
+    <div class="flex flex-col items-center justify-center h-full gap-8 text-lg tracking-wider">
+      <a href="#about" class="hover:italic" onclick="toggleMobileMenu()">ABOUT</a>
+      <a href="#shows" class="hover:italic" onclick="toggleMobileMenu()">SHOWS</a>
+      <a href="#music" class="hover:italic" onclick="toggleMobileMenu()">MUSIC</a>
+      <a href="#merch" class="hover:italic" onclick="toggleMobileMenu()">MERCH</a>
+      <a href="#gallery" class="hover:italic" onclick="toggleMobileMenu()">PHOTOS</a>
+      <a href="#contact" class="hover:italic" onclick="toggleMobileMenu()">CONTACT</a>
+    </div>
+    <button id="mobile-menu-close" class="absolute top-6 right-6 text-white text-2xl">
+      <i class="fa-solid fa-times"></i>
+    </button>
+  </div>
 
   <!-- HERO -->
   <section id="hero" class="min-h-screen flex items-end relative overflow-hidden">
     <img src="/photoshoots/menu_concert.JPG"
-         class="absolute inset-0 w-full h-full object-cover opacity-40"
-         alt="MENU performing live on stage in Atlanta" />
+    class="absolute inset-0 w-full h-full object-cover object-top lg:object-center opacity-40 -translate-y-2"
+    alt="MENU performing live on stage in Atlanta" />
+
     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
   
     <div class="relative z-10 p-8 pb-24 flex flex-col items-start">
@@ -98,37 +118,37 @@
              class="w-full h-auto mx-auto drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]"
              alt="MENU band logo" />
       </div>
-  
-
-      <a href="https://www.bandsintown.com/a/11158963?came_from=267&app_id=linktree-0011158963&utm_medium=api&utm_source=public_api&utm_campaign=artist">
-        <p class="uppercase tracking-widest text-white/80 text-lg mt-4 mb-8">Upcoming Shows</p>
-      </a>
 
       <div class="flex flex-col sm:flex-row gap-4">
-        <a href="#shows">
-          <button class="px-8 py-4 bg-white text-black uppercase tracking-widest hover:bg-white/80">See Live Dates</button>
-        </a>
         <a href="#music">
           <button class="px-8 py-4 border-2 border-white uppercase tracking-widest hover:bg-white hover:text-black transition">Listen Now</button>
+        </a>
+        <a href="#shows">
+          <button class="px-8 py-4 border-2 bg-white text-black uppercase tracking-widest hover:bg-white/80">Upcoming Shows</button>
         </a>
       </div>
     </div>
 
-    <div class="absolute top-24 right-8 text-white/40 text-sm tracking-widest rotate-90 origin-right">EST. 2014</div>
+    <!-- <div class="absolute top-24 right-8 text-white/40 text-sm tracking-widest rotate-90 origin-right">EST. 2014</div> -->
   </section>
 
   <!-- ABOUT -->
   <section id="about" class="min-h-screen bg-black px-8 py-24 flex flex-col lg:flex-row items-center gap-16">
-    <img src="/photoshoots/menu_group_pic.jpg" class="w-full lg:w-1/2 h-[60vh] object-cover rounded" alt="Group photo of MENU band in Atlanta"/>
+    <img
+    src="/photoshoots/menu_group_pic.jpg"
+    class="w-full lg:w-1/2 h-auto max-h-[70vh] object-contain rounded object-center"
+    alt="Group photo of MENU band in Atlanta"
+  />
+  
 
     <div class="lg:w-1/2">
       <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] mb-6 leading-[0.85]">
         WHO<br>WE<br>ARE
       </h2>
 
-      <p class="text-white/70 leading-relaxed mb-4">
-        MENU origin story
-      </p>
+      <h3 class="text-white/70 leading-relaxed mb-4 text-[1.5vw]">
+        MENU Origin Story
+      </h3>
 
       <p class="text-white/70 leading-relaxed">
         Combining a desire to positively impact the social environment of the world and a tendency to stumble out of the boundaries of traditional pop writing, MENU delivers a visual and auditory voyage that leaves listeners wanting to call that old friend.
@@ -146,7 +166,7 @@
 
   <!-- SHOWS -->
   <section id="shows" class="bg-white text-black py-24 px-8">
-    <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-12">LIVE</h2>
+    <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-12">SHOWS</h2>
     <div id="shows-list" class="divide-y divide-black"></div>
   </section>
 
@@ -156,7 +176,7 @@
     <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto"></div>
   </section>
   
-
+  <!-- MERCH -->
   <section id="merch" class="bg-black text-white py-24 px-8">
     <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-20 text-center">
       MERCH
@@ -164,8 +184,10 @@
   
     <div class="relative max-w-6xl mx-auto">
       <!-- Cart summary and dropdown -->
-      <div class="absolute right-0 top-0 sm:-top-6 z-40">
+      <div class="flex justify-end mb-6">
         <div class="relative inline-block text-left">
+          
+          <!-- Cart Button -->
           <button id="cart-toggle"
             class="flex items-center gap-2 px-3 py-1.5 border border-white/30 text-xs tracking-[0.2em] uppercase bg-black/70">
             <i class="fa-solid fa-cart-shopping text-xs"></i>
@@ -175,8 +197,9 @@
             </span>
           </button>
   
+          <!-- Cart Dropdown Panel (anchored to button) -->
           <div id="cart-panel"
-               class="hidden absolute right-0 mt-2 w-72 bg-zinc-950 border border-white/20 p-4 text-xs space-y-3">
+               class="hidden bg-zinc-950 border border-white/20 p-4 text-xs space-y-3">
             <div class="flex justify-between items-center">
               <span class="tracking-[0.2em] uppercase text-white/70">Cart</span>
               <button id="cart-close" class="text-white/50 hover:text-white text-sm">✕</button>
@@ -194,17 +217,16 @@
               Checkout
             </button>
           </div>
+  
         </div>
       </div>
-
-
   
       <!-- Carousel -->
       <div
-      id="merch-carousel"
-      class="relative flex items-center justify-center h-[480px] sm:h-[520px]">
-    </div>
-    
+        id="merch-carousel"
+        class="relative flex items-center justify-center h-[500px] sm:h-[540px] sm:w-[100vw]">
+        <!-- cards injected by JS -->
+      </div>
   
       <!-- Carousel controls -->
       <div class="mt-12 flex items-center justify-center gap-10">
@@ -225,13 +247,9 @@
     </div>
   </section>
   
-
-
-    
-
   <!-- GALLERY -->
   <section id="gallery" class="bg-black text-white py-24 px-8 overflow-hidden">
-    <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-20 text-center">
+    <h2 class="max-w-7xl mx-auto relative text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-20 text-right">
       PHOTOS
     </h2>
 
@@ -274,7 +292,7 @@
 
   <!-- VIDEOS -->
   <section id="videos" class="bg-black text-white py-24 px-8">
-    <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-20 text-center">
+    <h2 class="max-w-7xl mx-auto relative text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-20 text-right">
       VIDEOS
     </h2>
 
