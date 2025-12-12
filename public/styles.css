@@ -148,13 +148,13 @@ html, body {
 @media (max-width: 640px) {
   #merch-carousel {
     position: relative;
-    padding-top: 10rem;  /* space between cart + card */
+    padding-top: 2rem;  /* space between cart + card */
   }
   .merch-card {
     width: 60vw;
     max-width: 360px;
     height: 480px;         /* let it grow */
-    min-height: 430px;    /* keep your general size vibe */
+    min-height: 430px;
     margin: 0 auto;
   }
 
