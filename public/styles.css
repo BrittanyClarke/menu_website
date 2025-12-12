@@ -148,7 +148,7 @@ html, body {
 @media (max-width: 640px) {
   #merch-carousel {
     position: relative;
-    padding-top: 10rem;  /* space between cart + card */
+    padding-top: 5rem;  /* space between cart + card */
   }
   .merch-card {
     width: 60vw;
