@@ -594,8 +594,12 @@ function initMerchAndCart() {
 //      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/06JbgP8yAn8qwYjAB7pryF?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     musicSection.innerHTML = `
 
-<div id="spotify-cover-wrapper"
-     class="relative group cursor-pointer w-full aspect-square rounded-lg overflow-hidden">
+<a id="spotify-cover-wrapper"
+   href="https://open.spotify.com/album/06JbgP8yAn8qwYjAB7pryF"
+   target="_blank"
+   rel="noopener"
+   class="relative block w-full aspect-square rounded-lg overflow-hidden cursor-pointer">
+
 
 
 <img id="spotify-cover-image"
@@ -624,7 +628,7 @@ function initMerchAndCart() {
 </div>
 
 
-</div>
+</a>
 
       <div>
         <p class="text-sm opacity-60 mb-2 tracking-widest">LATEST RELEASE</p>
@@ -735,6 +739,26 @@ function initMerchAndCart() {
 
       
     `;
+    const wrapper = document.getElementById('spotify-cover-wrapper');
+
+if (wrapper) {
+  wrapper.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    wrapper.outerHTML = `
+      <iframe
+        src="https://open.spotify.com/embed/album/06JbgP8yAn8qwYjAB7pryF?autoplay=1"
+        width="100%"
+        height="380"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="eager"
+        style="border-radius:12px">
+      </iframe>
+    `;
+  });
+}
+
         const img = document.getElementById("spotify-cover-image");
         if (img) {
           img.src = cover;

@@ -143,6 +143,10 @@ html, body {
   margin: 0 auto;
 }
 
+/* Ensure mobile taps always register on the Spotify cover */
+#spotify-cover-wrapper > * {
+  pointer-events: none;
+}
 
 /* Mobile: resize cards so title + button fit */
 @media (max-width: 640px) {
