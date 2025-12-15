@@ -594,13 +594,15 @@ function initMerchAndCart() {
 //      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/06JbgP8yAn8qwYjAB7pryF?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     musicSection.innerHTML = `
 
-      <div id="spotify-cover-wrapper"
-     class="relative group cursor-pointer w-full h-full rounded-lg overflow-hidden">
+<div id="spotify-cover-wrapper"
+     class="relative group cursor-pointer w-full aspect-square rounded-lg overflow-hidden">
 
-  <img id="spotify-cover-image"
-       src=""
-       alt="Latest MENU Release"
-       class="w-full h-full object-cover opacity-0 transition-opacity duration-500" />
+
+<img id="spotify-cover-image"
+     src="/fallback.jpg"
+     alt="Latest MENU Release"
+     class="w-full h-full object-cover opacity-0 transition-opacity duration-500" />
+
 
   <!-- Play Button Overlay -->
   <div class="absolute inset-0 flex items-center justify-center bg-black/30
@@ -720,6 +722,21 @@ function initMerchAndCart() {
 
       
     `;
+        const img = document.getElementById("spotify-cover-image");
+        if (img) {
+          img.src = cover;
+    
+          // force Safari to repaint
+          img.style.display = "none";
+          img.offsetHeight; // force reflow
+          img.style.display = "block";
+    
+          // fade in after repaint
+          requestAnimationFrame(() => {
+            img.classList.remove("opacity-0");
+          });
+        }
+    
   } catch (err) {
     console.error("Error loading Spotify music:", err);
   }
