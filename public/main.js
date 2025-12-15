@@ -604,13 +604,26 @@ function initMerchAndCart() {
      class="w-full h-full object-cover opacity-0 transition-opacity duration-500" />
 
 
-  <!-- Play Button Overlay -->
-  <div class="absolute inset-0 flex items-center justify-center bg-black/30
-              backdrop-blur-sm opacity-0 group-hover:opacity-100 transition">
-    <div class="w-20 h-20 rounded-full bg-white/70 flex items-center justify-center text-black text-4xl">
-      ▶
-    </div>
+<!-- Hover-only blur layer (desktop only) -->
+<div
+  class="absolute inset-0 bg-black/30 opacity-0
+         md:group-hover:opacity-100
+         md:group-hover:backdrop-blur-sm
+         transition pointer-events-none">
+</div>
+
+<!-- Always-visible play button -->
+<div
+  class="absolute inset-0 flex items-center justify-center pointer-events-none">
+  <div
+    class="w-20 h-20 rounded-full bg-white/80
+           flex items-center justify-center
+           text-black text-4xl">
+    ▶
   </div>
+</div>
+
+
 </div>
 
       <div>
