@@ -1,390 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MENU Site | ATL Band </title>
-  <!-- Spotify performance preloading -->
-  <link rel="preconnect" href="https://open.spotify.com">
-  <link rel="preconnect" href="https://i.scdn.co">
-  <link rel="dns-prefetch" href="https://open.spotify.com">
-  <link rel="dns-prefetch" href="https://i.scdn.co">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Title</title>
+    <style>
+        body {
+            text-align: center;
+            overflow: hidden;
+        }
+
+        table {
+            float: right;
+        }
+
+        #wordart {
+        font-family: Arial, sans-serif;
+        font-size: 7em;
+        font-weight: bold;
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        
+        }
+
+        #wordart.rainbow {
+        transform: scale(1, 1.5);
+        -webkit-transform: scale(1, 1.5);
+        -moz-transform: scale(1, 1.5);
+        -o-transform: scale(1, 1.5);
+        -ms-transform: scale(1, 1.5);
+        }
+
+        #wordart.rainbow .text {
+        background: red; 
+        background: -webkit-linear-gradient(left, #b306a9, #ef2667, #f42e2c, #ffa509, #fdfc00, #55ac2f, #0b13fd, #a804af);
+        background: -o-linear-gradient(left, #b306a9, #ef2667, #f42e2c, #ffa509, #fdfc00, #55ac2f, #0b13fd, #a804af);
+        background: -moz-linear-gradient(left, #b306a9, #ef2667, #f42e2c, #ffa509, #fdfc00, #55ac2f, #0b13fd, #a804af);
+        background: linear-gradient(to right, #b306a9, #ef2667, #f42e2c, #ffa509, #fdfc00, #55ac2f, #0b13fd, #a804af); 
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        }
+
+        #wordart.blues .text {
+            font-family: Impact, sans-serif;
+            color: #24c0fd;
+            -webkit-text-stroke: 0.01em #0000aa;
+            filter: progid:DXImageTransform.Microsoft.Glow(Color=#0000aa,Strength=1);
+            text-shadow: 0.13em -0.13em 0px #0000aa;
+            letter-spacing: -0.05em;
+        }
+
+        #wordart.superhero {
+            transform: skew(0, -15deg) scale(1, 1.5);
+            -webkit-transform: skew(0, -15deg) scale(1, 1.5);
+            -moz-transform: skew(0, -15deg) scale(1, 1.5);
+            -o-transform: skew(0, -15deg) scale(1, 1.5);
+            -ms-transform: skew(0, -15deg) scale(1, 1.5);
+        }
+
+        #wordart.superhero .text {
+            font-family: Impact;
+            background: #fdea00;
+            background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+            background: -moz-linear-gradient(top, #fdea00 0%, #fdcf00 44%, #fc2700 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fdea00), color-stop(44%, #fdcf00), color-stop(100%, #fc2700));
+            background: -webkit-linear-gradient(top, #fdea00 0%, #fdcf00 44%, #fc2700 100%);
+            background: -o-linear-gradient(top, #fdea00 0%, #fdcf00 44%, #fc2700 100%);
+            background: -ms-linear-gradient(top, #fdea00 0%, #fdcf00 44%, #fc2700 100%);
+            background: linear-gradient(to bottom, #fdea00 0%, #fdcf00 44%, #fc2700 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdea00', endColorstr='#fc2700', GradientType=0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #wordart.superhero .text:before {
+            content: attr(data-text);
+            position: absolute;
+            z-index: -1;
+            text-shadow: 0.01em 0em 0 #802700, 0em 0.01em 0 #c23d00, 0.02em 0.01em 0 #802700, 0.01em 0.02em 0 #c23d00, 0.03em 0.02em 0 #802700, 0.02em 0.03em 0 #c23d00, 0.04em 0.03em 0 #802700, 0.03em 0.04em 0 #c23d00, 0.05em 0.04em 0 #802700, 0.04em 0.05em 0 #c23d00, 0.06em 0.05em 0 #802700, 0.05em 0.06em 0 #c23d00, 0.07em 0.06em 0 #802700, 0.06em 0.07em 0 #c23d00, 0.08em 0.07em 0 #802700, 0.07em 0.08em 0 #c23d00;
+        }
+
+        #wordart.tilt {
+            display: inline-block;
+            transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+            -webkit-transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+            -moz-transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+            -o-transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+            -ms-transform: scaleY(2) perspective(1em) rotateX(15deg) translate3d(-19%, -14%, -0.4em);
+        }
+
+        #wordart.tilt .text {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            background: #390c0b;
+            background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…IgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+            background: -moz-linear-gradient(top, #390c0b 0%, #f6bf28 73%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #390c0b), color-stop(73%, #f6bf28));
+            background: -webkit-linear-gradient(top, #390c0b 0%, #f6bf28 73%);
+            background: -o-linear-gradient(top, #390c0b 0%, #f6bf28 73%);
+            background: -ms-linear-gradient(top, #390c0b 0%, #f6bf28 73%);
+            background: linear-gradient(to bottom, #390c0b 0%, #f6bf28 73%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#390c0b', endColorstr='#f6bf28', GradientType=0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.01em;
+            -webkit-text-stroke: 0.01em #A3A3A3;
+            filter: progid:DXImageTransform.Microsoft.Glow(Color=#a3a3a3, Strength=1);
+        }
+
+        #wordart.tilt .text:before {
+            content: attr(data-text);
+            position: absolute;
+            z-index: -1;
+            top: 0.17em;
+            -webkit-text-fill-color: #6D4916;
+            -webkit-background-clip: border-box;
+            transform: perspective(1em) rotateX(65deg) scale(0.77);
+            -webkit-transform: perspective(1em) rotateX(65deg) scale(0.77);
+            -moz-transform: perspective(1em) rotateX(65deg) scale(0.77);
+            -o-transform: perspective(1em) rotateX(65deg) scale(0.77);
+            -ms-transform: perspective(1em) rotateX(65deg) scale(0.77);
+        }
+
+        #wordart.outline {
+            transform: scale(1, 1.3);
+            -webkit-transform: scale(1, 1.3);
+            -moz-transform: scale(1, 1.3);
+            -o-transform: scale(1, 1.3);
+            -ms-transform: scale(1, 1.3);
+        }
+
+        #wordart.outline .text {
+            letter-spacing: -0.01em;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-style: italic;
+            color: #fff;
+            -webkit-text-stroke: 0.01em #000;
+            filter: progid:DXImageTransform.Microsoft.Glow(Color=#000000, Strength=1);
+            text-shadow: 0.03em 0.03em 0 #6D6D6D;
+        }
+
+        button {
+            background-color: #ff0000;
+            height: 18vh;
+            width: 40vw;
+            border: 2px solid black;
+            border-radius: 800px;
+        }
+
+        #btn {
+            position: absolute;
+            top: 70%;
+            left: 75%;
+            transform: translate(-50%, -50%);
+        }
+
+        html {
+            background-color: #96ff33;
+        }
+
+        table {
+            margin: 50px auto;
+            font-size: 2em;
+            border: 5px dotted black;
+        }
+
+        img {
+            float: left;
+            height: 50vh;
+            width: 50vw;
+            border: 10px solid black;
+            animation: blink-border 1s infinite;
+        }
+
+        /* Styling for the dynamically created trail elements */
+        .trail-element {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%; /* Creates circular particles */
+            pointer-events: none; /* Allows clicks to pass through the trail elements */
+            opacity: 0;
+            animation: fadeOut 0.5s forwards; /* Animation to make them disappear smoothly */
+            transform: translate(-50%, -50%); /* Centers the element on the cursor position */
+        }
+
+        /* Keyframe animation for fading out */
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.1);
+            }
+        }
 
 
-  <meta
-    name="description"
-    content="MENU is an alternative pop rock band from Atlanta. Watch live videos, stream the latest release MIZU, and grab limited run merch directly from the band."
-  />
-  <link rel="preload" as="image" href="/photoshoots/menu_concert.webp">
-  <link rel="preload" as="image" href="/photoshoots/menu_logo.webp">
-  <link rel="canonical" href="https://menuatlga.com/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="MENU | Official site | Pop rock punk band from Atlanta" />
-  <meta
-    property="og:description"
-    content="Discover MENU. Stream MIZU, watch live footage, and shop official merch."
-  />
-  <meta property="og:url" content="https://menuatlga.com/" />
-  <meta property="og:image" content="https://menuatlga.com/photoshoots/menu_concert.webp" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MENU | Official site" />
-  <meta
-    name="twitter:description"
-    content="Pop rock punk from Atlanta. Stream the music and shop merch."
-  />
-  <meta name="twitter:image" content="https://menuatlga.com/photoshoots/menu_concert.webp" />
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.tailwindcss.com"></script>
+        @keyframes blink-border {
+            0% { border-color: #00b7ff; }
+            50% { border-color: orange; }
+            100% { border-color: #00b7ff; }
+        }
+    </style>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const classNames = ["rainbow", "blues", "tilt", "superhero", "outline"];
+            let classNameIterator = 0;
 
-<!-- SEO -->
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MusicGroup",
-    "name": "MENU",
-    "genre": "Alternative pop rock",
-    "url": "https://menuatlga.com/",
-    "image": "https://menuatlga.com/photoshoots/menu_logo.webp",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Atlanta",
-      "addressRegion": "GA",
-      "addressCountry": "US"
-    },
-    "sameAs": [
-      "https://open.spotify.com/artist/3K0KJBedbI1lEoTHc1zBPa",
-      "https://music.apple.com/us/artist/1543498108",
-      "https://www.instagram.com/canigetamenudamn",
-      "https://www.youtube.com/@canigetamenudamn"
-    ],
-    "album": {
-      "@type": "MusicAlbum",
-      "name": "MIZU",
-      "byArtist": "MENU"
-    }
-  }
-  </script>
-  
+            document.addEventListener('mousemove', (e) => {
+                const colors = ['#ff0000', '#ffa500', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff'];
+
+                const trail = document.createElement('div');
+                trail.classList.add('trail-element');
+
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+
+                trail.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                document.body.appendChild(trail);
+
+                trail.addEventListener('animationend', () => {
+                    trail.remove();
+                });
+            })
+
+            setInterval(() => {
+                document.getElementById('wordart').className = classNames[classNameIterator];
+
+                if(classNameIterator == classNames.length-1) {
+                    classNameIterator = 0;
+                }
+                else {
+                    classNameIterator++;
+                }
+            }, 1000);
+
+            setInterval(() => {
+                if(document.getElementById('td').innerText == "0") {
+                    document.getElementById('td').innerText = "1";
+                    return;
+                }
+                else {
+                    document.getElementById('td').innerText = "0";
+                    return;
+                }
+            }, 200);
+
+            btn.addEventListener('mouseover', () => {
+                const randomX = Math.floor(Math.random() * window.innerWidth);
+                const randomY = Math.floor(Math.random() * window.innerHeight);
+
+                btn.style.position = 'absolute';
+                btn.style.left = `${randomX}px`;
+                btn.style.top = `${randomY}px`;
+            })
+
+            btn.addEventListener('click', () => {
+                alert("DO NOT TOUCH ME. I AM NOT READY. \u{1F62D}")
+            })
+
+            const td = document.getElementById('td');
+            td.innerText = "1"
+        })
+
+    </script>
 </head>
+<body>
+    <h1 id="wordart" class="rainbow"><span class="text">MENU</span></h1>
+    <table>
+        <tr>
+            <th>Visitor Count</th>
+        </tr>
+            <td id="td">0</td>
+        </tr>
+    </table>
 
-<body class="bg-black text-white font-sans overflow-x-hidden">
-
-  <!-- NAV -->
-  <nav class="fixed inset-x-0 top-0 z-20 mix-blend-difference px-6 py-6 flex justify-between items-center">
-    <button class="text-white text-2xl tracking-[0.3em] italic">MENU</button>
-    
-    <!-- Desktop Navigation -->
-    <div class="hidden md:flex gap-6 text-lg tracking-wider">
-      <a href="#about" class="hover:italic">ABOUT</a>
-      <a href="#shows" class="hover:italic">SHOWS</a>
-      <a href="#music" class="hover:italic">MUSIC</a>
-      <a href="#merch" class="hover:italic">MERCH</a>
-      <a href="#gallery" class="hover:italic">PHOTOS</a>
-      <a href="#contact" class="hover:italic">CONTACT</a>
-    </div>
-  
-    <!-- Mobile Hamburger Menu -->
-    <button id="hamburger-toggle" class="md:hidden text-white text-2xl">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-  </nav>
-  
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="fixed inset-0 bg-black text-white hidden z-40">
-    <div class="flex flex-col items-center justify-center h-full gap-8 text-lg tracking-wider">
-      <a href="#about" class="hover:italic" onclick="toggleMobileMenu()">ABOUT</a>
-      <a href="#shows" class="hover:italic" onclick="toggleMobileMenu()">SHOWS</a>
-      <a href="#music" class="hover:italic" onclick="toggleMobileMenu()">MUSIC</a>
-      <a href="#merch" class="hover:italic" onclick="toggleMobileMenu()">MERCH</a>
-      <a href="#gallery" class="hover:italic" onclick="toggleMobileMenu()">PHOTOS</a>
-      <a href="#contact" class="hover:italic" onclick="toggleMobileMenu()">CONTACT</a>
-    </div>
-    <button id="mobile-menu-close" class="absolute top-6 right-6 text-white text-2xl">
-      <i class="fa-solid fa-times"></i>
-    </button>
-  </div>
-
-  <!-- HERO -->
-  <section id="hero" class="min-h-screen flex items-end relative overflow-hidden">
-    <img src="/photoshoots/menu_concert.webp"
-    class="absolute inset-0 w-full h-full object-cover object-top lg:object-center opacity-40 -translate-y-2"
-    alt="MENU performing live on stage in Atlanta" />
-
-    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
-  
-    <div class="relative z-10 p-8 pb-24 flex flex-col items-start">
-      <div class="w-[70vw] max-w-[800px]">
-        <!-- Main page heading for SEO and accessibility -->
-        <h1 class="sr-only">
-          MENU, an alternative pop rock band from Atlanta Georgia
-        </h1>
-  
-        <img src="/photoshoots/menu_logo.webp"
-             class="w-full h-auto mx-auto drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]"
-             alt="MENU band logo" />
-      </div>
-
-      <div class="flex flex-col sm:flex-row gap-4">
-        <a href="#music">
-          <button class="px-8 py-4 border-2 border-white uppercase tracking-widest hover:bg-white hover:text-black transition">Listen Now</button>
-        </a>
-        <a href="#shows">
-          <button class="px-8 py-4 border-2 bg-white text-black uppercase tracking-widest hover:bg-white/80">Upcoming Shows</button>
-        </a>
-      </div>
+    <div style="width: 100%; display: flex;">
+        <img src="photoshoots/bandfake.png" alt="MENU Band Photo" width="600" height="400">
+        <p style="font-size:5em; text-align:right">MENU isa band in atlkanta tht plays rly gud =].,</p>
     </div>
 
-    <!-- <div class="absolute top-24 right-8 text-white/40 text-sm tracking-widest rotate-90 origin-right">EST. 2014</div> -->
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="min-h-screen bg-black px-8 py-24 flex flex-col lg:flex-row items-center gap-16">
-    <img 
-    src="/photoshoots/menu_group_pic.jpg"
-    class="w-full lg:w-1/2 h-auto max-h-[70vh] object-contain rounded object-center"
-    alt="Group photo of MENU band in Atlanta"
-  />
-  
-
-    <div class="lg:w-1/2">
-      <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] mb-6 leading-[0.85]">
-        WHO<br>WE<br>ARE
-      </h2>
-
-      <h3 class="text-white/70 leading-relaxed mb-4 text-[1.5em]">
-        MENU Origin Story
-      </h3>
-
-      <p class="text-white/70 leading-relaxed">
-        Combining a desire to positively impact the social environment of the world and a tendency to stumble out of the boundaries of traditional pop writing, MENU delivers a visual and auditory voyage that leaves listeners wanting to call that old friend.
-        <br /><br />
-        Alternative pop rock from Atlanta, GA. MENU is Steve Martin (Guitar, Vocals, Production); Mick Hutchins (Synth, Vocals, Production); Yoatzin Anaya (Guitar, FromSoft); James Norton III (Bass, Memes); Mike Michaels (Drums, Hype)
-        <br /><br />
-        MENU began in 2014 when Steve Martin and Mick Hutchins decided to play acoustic performances of their favorite cover songs. The need to unify their friends in the uncertain journey known as adolescence sparked the two to pursue a professional career in the art of bringing people together. After a hiatus from 2017 to 2020, the band moved back from college to the ATL to continue with new knowledge, experiences, and creativity.
-        <br /><br />
-        MENU takes on the music industry with easygoing but impactful songwriting. Loosely described as Alternative Pop Rock, the band throws no caution to genre boundaries in their 6-song rollercoaster ride of a debut EP titled Homecoming.
-        <br /><br />
-        "We gotta come up wit a name 4 me n u" – Steve (2014)
-      </p>
-    </div>
-  </section>
-
-  <!-- SHOWS -->
-  <section id="shows" class="bg-white text-black py-24 px-8">
-    <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-12">SHOWS</h2>
-    <div id="shows-list" class="divide-y divide-black"></div>
-  </section>
-
-  <!-- MUSIC -->
-  <section id="music" class="bg-zinc-950 text-white py-24 px-8">
-    <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-12">MUSIC</h2>
-    <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto min-h-[300px]"></div>
-
-  </section>
-  
-  <!-- MERCH -->
-  <section id="merch" class="bg-black text-white py-24 px-8">
-    <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-20 text-center">
-      MERCH
-    </h2>
-  
-    <div class="relative max-w-6xl mx-auto">
-      <!-- Cart summary and dropdown -->
-      <div class="flex justify-end mb-1">
-        <div class="relative inline-block text-left">
-          
-          <!-- Cart Button -->
-          <button id="cart-toggle"
-            class="flex items-center gap-2 px-3 py-1.5 border border-white/30 text-xs tracking-[0.2em] uppercase bg-black/70">
-            <i class="fa-solid fa-cart-shopping text-xs"></i>
-            <span id="cart-count"
-              class="inline-flex items-center justify-center text-[0.7rem] px-2 py-0.5 bg-white text-black">
-              0
-            </span>
-          </button>
-  
-          <!-- Cart Dropdown Panel (anchored to button) -->
-          <div id="cart-panel"
-               class="hidden bg-zinc-950 border border-white/20 p-4 text-xs space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="tracking-[0.2em] uppercase text-white/70">Cart</span>
-              <button id="cart-close" class="text-white/50 hover:text-white text-sm">✕</button>
-            </div>
-  
-            <div id="cart-items" class="space-y-2 max-h-60 overflow-y-auto"></div>
-  
-            <div class="flex justify-between items-center pt-2 border-t border-white/15 text-[0.75rem]">
-              <span class="uppercase tracking-[0.15em] text-white/60">Total</span>
-              <span id="cart-total" class="text-white">$0.00</span>
-            </div>
-  
-            <button id="cart-checkout"
-              class="mt-3 w-full py-2 text-[0.7rem] uppercase tracking-[0.25em] bg-white text-black border border-white/80 hover:bg-black hover:text-white transition">
-              Checkout
-            </button>
-          </div>
-  
-        </div>
-      </div>
-  
-      <!-- Carousel -->
-      <div
-        id="merch-carousel"
-        class="relative flex items-center justify-center h-[500px] sm:h-[540px] sm:w-[100vw]">
-        <!-- cards injected by JS -->
-      </div>
-  
-      <!-- Carousel controls -->
-      <div class="mt-12 flex items-center justify-center gap-10">
-        <button id="merch-prev"
-          class="w-12 h-12 flex items-center justify-center border border-white/40
-                 bg-transparent text-2xl text-white hover:bg-white hover:text-black
-                 transition duration-200 hover:-translate-x-1 active:-translate-x-1.5">
-          ‹
-        </button>
-  
-        <button id="merch-next"
-          class="w-12 h-12 flex items-center justify-center border border-white/40
-                 bg-transparent text-2xl text-white hover:bg-white hover:text-black
-                 transition duration-200 hover:translate-x-1 active:translate-x-1.5">
-          ›
-        </button>
-      </div>
-    </div>
-  </section>
-  
-  <!-- GALLERY -->
-  <section id="gallery" class="bg-black text-white py-24 px-8 overflow-hidden">
-    <h2 class="max-w-7xl mx-auto relative text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-20 text-right">
-      PHOTOS
-    </h2>
-
-    <div class="max-w-7xl mx-auto relative">
-      <div id="gallery-inner"
-           class="columns-1 sm:columns-2 lg:columns-3 [column-gap:1.5rem]
-                  max-h-[1100px] md:max-h-[1400px] overflow-hidden
-                  transition-[max-height] duration-700 ease-out">
-
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/1.jpg" loading="lazy" alt="Group photo of MENU band in Atlanta" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/5.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/4.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/6.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/7.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/18.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/8.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/12.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/13.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/14.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/17.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/16.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/19.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/10.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/20.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/21.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-        <div class="mb-6 [break-inside:avoid]"><img src="/photoshoots/15.jpg" loading="lazy" class="w-full h-auto object-cover hover:scale-105 hover:opacity-80 transition" /></div>
-      </div>
-
-      <div id="gallery-overlay"
-           class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/90 to-transparent
-                  flex items-end justify-center opacity-100 transition-opacity duration-500">
-        <button id="gallery-load-more"
-          class="mb-6 px-8 py-3 bg-black/70 border border-white/60 uppercase tracking-[0.35em]
-                 text-xs sm:text-sm hover:bg-white hover:text-black transition">
-          Load more photos
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- VIDEOS -->
-  <section id="videos" class="bg-black text-white py-24 px-8">
-    <h2 class="max-w-7xl mx-auto relative text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-20 text-right">
-      VIDEOS
-    </h2>
-
-    <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 gap-6">
-
-        <div class="relative w-full pt-[56.25%] overflow-hidden group bg-zinc-900/60 border border-white/15 lg:col-span-2 lg:row-span-2">
-          <iframe class="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-[1.02] transition"
-            src="https://www.youtube.com/embed/PK3MsZ6bxdQ?si=Nr4P9zX1dmt9wOoy" allowfullscreen></iframe>
-        </div>
-
-        <div class="relative w-full pt-[56.25%] overflow-hidden group bg-zinc-900/60 border border-white/15">
-          <iframe class="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-[1.02] transition"
-            src="https://www.youtube.com/embed/ltb1i1bDIbk?si=5A1yjY5L0wJt6LF9" allowfullscreen></iframe>
-        </div>
-
-        <div class="relative w-full pt-[56.25%] overflow-hidden group bg-zinc-900/60 border border-white/15">
-          <iframe class="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-[1.02] transition"
-            src="https://www.youtube.com/embed/JKDrRoJDv4w?si=ZuD-dljOPeqMeuDB" allowfullscreen></iframe>
-        </div>
-
-        <div class="relative w-full pt-[56.25%] overflow-hidden group bg-zinc-900/60 border border-white/15">
-          <iframe class="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-[1.02] transition"
-            src="https://www.youtube.com/embed/aYfuNoPpp98?si=kZlDib_GFqp50pK1" allowfullscreen></iframe>
-        </div>
-
-        <div class="relative w-full pt-[56.25%] overflow-hidden group bg-zinc-900/60 border border-white/15">
-          <iframe class="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-[1.02] transition"
-            src="https://www.youtube.com/embed/DV-W8NBr3tc?si=qP3o3Mk9oBTWZS25" allowfullscreen></iframe>
-        </div>
-
-        <div class="relative w-full pt-[56.25%] overflow-hidden group bg-zinc-900/60 border border-white/15">
-          <iframe class="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-[1.02] transition"
-            src="https://www.youtube.com/embed/SDM-1p9qBBc?si=4MoSOG0nSWp22gMV" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="bg-black text-white py-24 px-8 text-center">
-    <h2 class="text-[11vw] sm:text-7xl md:text-8xl italic tracking-[0.25em] leading-[0.85] mb-12">
-      GET IN TOUCH
-    </h2>
-
-    <p class="text-white/70 max-w-xl mx-auto mb-10">
-      For bookings or inquiries email:
-      <a href="mailto:howdy@menuatlga.com" class="underline hover:italic">howdy@menuatlga.com</a>
-    </p>
-
-    <div class="flex justify-center gap-8 flex-wrap">
-      <a href="https://instagram.com/canigetamenudamn" class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition">
-        <i data-lucide="instagram" class="w-6 h-6 text-white group-hover:text-orange-300"></i>
-        <span class="text-xs tracking-widest text-white/60 group-hover:text-white">Instagram</span>
-      </a>
-      <a href="https://www.tiktok.com/@canigetamenudamn" class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition">
-        <i class="fa-brands fa-tiktok w-6 h-6 text-white group-hover:text-pink-500"></i>
-        <span class="text-xs tracking-widest text-white/60 group-hover:text-white">TikTok</span>
-      </a>
-      <a href="https://www.youtube.com/channel/UCdO18SNSXNByw76DPOhO9hg?sub_confirmation=1" class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition">
-        <i data-lucide="youtube" class="w-6 h-6 text-white group-hover:text-red-500"></i>
-        <span class="text-xs tracking-widest text-white/60 group-hover:text-white">YouTube</span>
-      </a>
-      <a href="https://www.facebook.com/MENUatl" class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition">
-        <i data-lucide="facebook" class="w-6 h-6 text-white group-hover:text-blue-500"></i>
-        <span class="text-xs tracking-widest text-white/60 group-hover:text-white">Facebook</span>
-      </a>
-      <a href="https://x.com/MENUATLGA" class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition">
-        <i data-lucide="twitter" class="w-6 h-6 text-white group-hover:text-sky-400"></i>
-        <span class="text-xs tracking-widest text-white/60 group-hover:text-white">Twitter / X</span>
-      </a>
-      <a href="https://open.spotify.com/artist/3K0KJBedbI1lEoTHc1zBPa" class="group flex flex-col items-center gap-2 hover:-translate-y-1 transition">
-        <i data-lucide="music" class="w-6 h-6 text-white group-hover:text-green-400"></i>
-        <span class="text-xs tracking-widest text-white/60 group-hover:text-white">Spotify</span>
-      </a>
-    </div>
-  </section>
-
-  <footer class="bg-black text-white/40 text-xs tracking-widest uppercase py-8 text-center border-t border-white/10 mt-12">
-    © 2025 MENU · All Rights Reserved
-  </footer>
-
-  <script src="https://unpkg.com/lucide@latest" defer></script>
-  <script src="/main.js" defer></script>
+    <button id="btn"><h1>LISTEN HERE!!1!!!1</h1></button>
 </body>
 </html>
