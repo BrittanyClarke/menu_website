@@ -24,7 +24,7 @@ app.use('/api/music', musicRouter);
 
 // Fallback to index.html for all other routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'fake.html'));
 });
 
 app.listen(PORT, () => {
