@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
     }
 
     const idempotencyKey = crypto.randomUUID();
-    const redirectUrl = 'https://menuatlga.com/thank-you'; // update if needed
+    const redirectUrl = 'https://menuband.com'; // update if needed
 
     const { result } = await client.checkoutApi.createPaymentLink({
       idempotencyKey,
