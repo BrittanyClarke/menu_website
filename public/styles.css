@@ -1,3 +1,27 @@
+footer {
+  text-align: center;
+  padding: 24px 16px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6); /* subtle, matches current footer style */
+  font-family: inherit; /* uses site font */
+}
+
+footer p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+footer a {
+  color: rgba(255, 255, 255, 0.6); /* same subtle color as text */
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: rgba(255, 255, 255, 0.85); /* slightly brighter on hover */
+  text-decoration: underline;
+}
+
 /* Carousel container */
 #merch-carousel {
     perspective: 1400px;
