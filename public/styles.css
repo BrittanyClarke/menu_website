@@ -15,6 +15,7 @@ footer a {
   color: rgba(255, 255, 255, 0.6); /* same subtle color as text */
   text-decoration: none;
   transition: color 0.2s ease;
+  font-style: italic;
 }
 
 footer a:hover {
