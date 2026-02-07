@@ -745,9 +745,11 @@ if (wrapper) {
   wrapper.addEventListener('click', (e) => {
     e.preventDefault();
 
+    const albumId = album.id;
+
     wrapper.outerHTML = `
       <iframe
-        src="https://open.spotify.com/embed/album/06JbgP8yAn8qwYjAB7pryF?autoplay=1"
+        src="https://open.spotify.com/embed/album/${albumId}?autoplay=1"
         width="100%"
         height="380"
         frameborder="0"
