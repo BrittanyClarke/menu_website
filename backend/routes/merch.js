@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
       console.log(item.variations);
     })
 
-    const publicItems = items.map(item => {
+    let publicItems = items.map(item => {
       const gallery = item.galleryImageUrls || [];
       const secondaryImages = gallery.filter(url => url !== item.imageUrl);
     
@@ -33,8 +33,9 @@ router.get('/', async (req, res) => {
         })),
       };
     });
-    
 
+    publicItems = publicItems.filter(item => item.name != "Rolling Papers" && item.name != "Lighter");
+    
     res.json(publicItems);
   } catch (err) {
     console.error('Error loading merch from Square:', err);
