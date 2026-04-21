@@ -5,15 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Order Confirmed – MENU</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: #000;
       color: #fff;
-      font-family: 'Space Mono', monospace;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -97,10 +96,11 @@
 
     /* --- Headline --- */
     .headline {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: clamp(2.2rem, 8vw, 3.5rem);
       font-weight: 400;
-      letter-spacing: 0.05em;
+      font-style: italic;
+      letter-spacing: 0.25em;
       line-height: 1.1;
       margin-bottom: 0.5rem;
     }
@@ -135,20 +135,19 @@
       display: inline-block;
       margin-top: 2.5rem;
       padding: 0.75rem 2.5rem;
-      border: 1px solid rgba(255,255,255,0.5);
-      font-family: 'Space Mono', monospace;
+      border: 2px solid white;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: #fff;
       text-decoration: none;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      transition: background 0.2s, color 0.2s;
     }
 
     .back-btn:hover {
       background: #fff;
       color: #000;
-      border-color: #fff;
     }
 
     /* --- Corner mark (decorative) --- */
@@ -158,7 +157,7 @@
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.15);
-      font-family: 'Space Mono', monospace;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
     .corner-tl { top: 1.5rem; left: 1.5rem; }
     .corner-tr { top: 1.5rem; right: 1.5rem; }
