@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Confirmed – MENU</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    /* Subtle noise grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 480px;
+      width: 100%;
+    }
+
+    /* --- Animated checkmark --- */
+    .check-wrap {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 2.5rem;
+      position: relative;
+    }
+
+    .check-circle {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.5;
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-linecap: round;
+      animation: draw-circle 0.55s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+
+    .check-mark {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: draw-check 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
+    }
+
+    @keyframes draw-circle {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes draw-check {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* --- Text reveal animations --- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: reveal-up 0.5s ease forwards;
+    }
+
+    .reveal-1 { animation-delay: 0.8s; }
+    .reveal-2 { animation-delay: 1.0s; }
+    .reveal-3 { animation-delay: 1.15s; }
+    .reveal-4 { animation-delay: 1.3s; }
+    .reveal-5 { animation-delay: 1.5s; }
+
+    @keyframes reveal-up {
+      to { opacity: 1; transform: none; }
+    }
+
+    /* --- Headline --- */
+    .headline {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(2.2rem, 8vw, 3.5rem);
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    /* --- Divider --- */
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      margin: 1.5rem auto;
+    }
+
+    /* --- Body text --- */
+    .body-text {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+
+    /* --- Reference line --- */
+    .ref-line {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.2);
+      margin-top: 0.5rem;
+    }
+
+    /* --- Back button --- */
+    .back-btn {
+      display: inline-block;
+      margin-top: 2.5rem;
+      padding: 0.75rem 2.5rem;
+      border: 1px solid rgba(255,255,255,0.5);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+    }
+
+    /* --- Corner mark (decorative) --- */
+    .corner {
+      position: fixed;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.15);
+      font-family: 'Space Mono', monospace;
+    }
+    .corner-tl { top: 1.5rem; left: 1.5rem; }
+    .corner-tr { top: 1.5rem; right: 1.5rem; }
+    .corner-bl { bottom: 1.5rem; left: 1.5rem; }
+    .corner-br { bottom: 1.5rem; right: 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Decorative corner labels matching the site's typographic aesthetic -->
+  <span class="corner corner-tl">MENU</span>
+  <span class="corner corner-tr">ATL</span>
+  <span class="corner corner-bl" id="corner-date"></span>
+  <span class="corner corner-br">ORDER</span>
+
+  <div class="content">
+
+    <!-- Animated SVG checkmark -->
+    <div class="check-wrap">
+      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" width="72" height="72">
+        <circle class="check-circle" cx="26" cy="26" r="25"/>
+        <path class="check-mark" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+
+    <h1 class="headline reveal reveal-1">Order Confirmed</h1>
+
+    <div class="divider reveal reveal-2"></div>
+
+    <p class="body-text reveal reveal-3">
+      Thanks for supporting MENU.<br/>
+      Your order is on its way.
+    </p>
+
+    <p class="body-text reveal reveal-4" style="margin-top:0.75rem;">
+      Square will send a confirmation<br/>email shortly.
+    </p>
+
+    <p class="ref-line reveal reveal-4" id="ref-line"></p>
+
+    <div class="reveal reveal-5">
+      <a href="/" class="back-btn">← Back to site</a>
+    </div>
+
+  </div>
+
+  <script>
+    // Show today's date in bottom-left corner
+    const dateEl = document.getElementById('corner-date');
+    if (dateEl) {
+      const d = new Date();
+      dateEl.textContent = d.toLocaleDateString('en-US', {
+        month: 'short', day: '2-digit', year: 'numeric'
+      }).toUpperCase();
+    }
+
+    // Extract Square's transaction/reference params from the redirect URL
+    // Square appends ?transactionId=...&referenceId=... automatically
+    const params = new URLSearchParams(window.location.search);
+    const txId = params.get('transactionId') || params.get('checkoutId') || params.get('referenceId');
+    const refLine = document.getElementById('ref-line');
+    if (txId && refLine) {
+      refLine.textContent = `Ref: ${txId}`;
+    }
+  </script>
+
+</body>
+</html>

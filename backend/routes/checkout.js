@@ -1,10 +1,10 @@
 // backend/routes/checkout.js
 // Creates a Square payment link for the items currently in the cart.
+// Includes shipping address collection and a redirect to the confirmation page.
 
 const express = require('express');
 const crypto = require('crypto');
 const router = express.Router();
-
 const client = require('../squareClient');
 const { findMerchById } = require('../merchFromSquare');
 
@@ -47,21 +47,36 @@ router.post('/', async (req, res) => {
     }
 
     const idempotencyKey = crypto.randomUUID();
-    const redirectUrl = 'https://menuband.com'; // update if needed
+
+    // Redirect to confirmation page after Square payment completes.
+    // Square automatically appends ?transactionId=...&referenceId=... to this URL.
+    const redirectUrl = process.env.REDIRECT_URL;
 
     const { result } = await client.checkoutApi.createPaymentLink({
       idempotencyKey,
       order: {
         locationId,
         lineItems,
+        fulfillments: [
+          {
+            type: 'SHIPMENT',
+            state: 'PROPOSED',
+            shipmentDetails: {
+              expectedShippedAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+            },
+          },
+        ],
       },
       checkoutOptions: {
         redirectUrl,
+        askForShippingAddress: true,
       },
     });
+    console.log('Payment link created:', JSON.stringify(result.paymentLink, null, 2));
 
     const paymentLink = result.paymentLink;
     res.json({ url: paymentLink.url });
+
   } catch (err) {
     console.error('Error creating payment link:', err);
     res.status(500).json({ error: 'Unable to create checkout link.' });
