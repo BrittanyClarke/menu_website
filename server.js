@@ -14,6 +14,10 @@ const PORT = process.env.PORT || 3000;
 // Parse JSON request bodies
 app.use(express.json());
 
+app.get('/order-confirmation', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'order-confirmation.html'));
+});
+
 // Serve static frontend assets from /public
 app.use(express.static(path.join(__dirname, 'public')));
 
