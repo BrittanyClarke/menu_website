@@ -727,7 +727,7 @@ function initMerchAndCart() {
               frameborder="0"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="eager"
-              style="border-radius:12px; aspect-ratio:1;">
+              style="border-radius:12px;">
             </iframe>
           `;
         });
